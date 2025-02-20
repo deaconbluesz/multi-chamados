@@ -1,371 +1,210 @@
-<!doctype html>
-<html lang="ptbr" data-bs-theme="auto">
-  <head><script src="../assets/js/color-modes.js"></script>
+import { useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
+import logo from './assets/sonio.jpg'
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.122.0">
-    <title>Status Linhas</title>
+function App() {
+  const [formData, setFormData] = useState({
+    linha: '',
+    posto: '',
+    sintomas: '',
+    departamento: '',
+    observacao: ''
+  })
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+  // array com a lista de sintomas
+  const sintomasList = [
+    'Botão não atua',
+    'Bateria',
+    'Touchpad não atua',
+    'Sem imagem',
+    'Placa não liga',
+    'Teste de corrente',
+    'HD não atua',
+    'Wi-fi não atua',
+    'Falha de GPS',
+    'Jig desligando',
+    'Teclado não atua',
+    'Cabo Mic não atua',
+    'SSD não atua',
+    'Pen-drive não atua',
+    'Speaker não atua',
+    'Vibrator não atua',
+    'Alto falante não atua',
+    'Falha de GSM',
+    'Falha de Bluetooth',
+    'Botão não atua',
+    'OTG não atua',
+    'Cabo LAN não atua',
+    'Agulha danificada',
+    'Scanner não atua',
+    'Falha de Engate Rápido',
+    'Falha de cabo HDMI',
+    'Falha de cabo AV',
+    'Falha de Sintonia',
+    'Cabo P2 não atua',
+    'Cabo Optical não atua',
+    'Falha de Soundbar',
+    'Câmera não atua',
+    'Cabo Flat danificado',
+    'Falha de USB',
+    'Cabo LCD danificado',
+    'Falha no Cabo Auxiliar',
+    'Monitor não liga',
+    'Falha de áudio',
+    'Falha de bosa',
+    'Falha no teste de voz',
+    'Fusível danificado',
+    'Led não liga',
+    'Falha na leitura de etiqueta',
+    'Falha no teste de MAC',
+    'Outro (Descrever nas OBS)'
+  ]
 
-    
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('Form Data Submitted:', formData)
+  }
 
-    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="script.js">
+  return (
+    <>
+      {/* header com logo à esquerda e texto centralizado */}
+      <header
+        className="navbar navbar-dark"
+        style={{
+          backgroundColor: '#0000',
+          padding: '1rem 2rem',
+          position: 'relative'
+        }}
+      >
+        <div className="container-fluid d-flex justify-content-center align-items-center">
+          <a className="position-absolute start-0" href="#">
+            <img src={logo} alt="Logo" width="40" height="40" />
+          </a>
+          <span
+            className="navbar-brand mb-0 h1"
+            style={{ fontSize: '1.5rem', fontWeight: 'bold' }}
+          >
+            Sistema de Chamados
+          </span>
+        </div>
+      </header>
 
-    <style>
-
-      .multiLogo{
-            transition: 0.2s;
-            transform-origin: 0%;         
-          }
-
-      .multiLogo:hover {
-         transform:scale(1.3);
-         transition: 0.4s;          
-          }
-
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;  
-        -moz-user-select: none;
-        user-select: none;
-        font-weight: 500;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(250, 250, 249, 0.1);
-        border: solid rgba(243, 10, 10, 0.15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-
-
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-
-      .bd-mode-toggle .dropdown-menu .active .bi {
-        display: block !important;
-      }
-
-      /* Style The Dropdown Button */
-.dropbtn {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  padding: 16px;
-  font-size: 16px;
-  border-radius: 13px;
-  cursor: pointer;
-  width: 120px;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: rgb(34, 27, 27);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #a5a5a5}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-  background-color: #b6b1b1;
-
-  .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-
-      .bd-mode-toggle .dropdown-menu .active .bi {
-        display: block !important;
-      }
-
-
-}
-    </style>
-
-    
-    
-  </head>
-  <body>
-
-    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-      <symbol id="check2" viewBox="0 0 16 16">
-        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-      </symbol>
-      <symbol id="circle-half" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
-      </symbol>
-      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
-        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
-        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
-      </symbol>
-      <symbol id="sun-fill" viewBox="0 0 16 16">
-        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
-      </symbol>
-    </svg>
-
-    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-              id="bd-theme"
-              type="button"
-              aria-expanded="false"
-              data-bs-toggle="dropdown"
-              aria-label="Toggle theme (auto)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-            Light
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
-            Dark
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
-            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
-            Auto
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-      </ul>
-    </div>
-
-    
-<header>
-  <div class="collapse text-bg-dark" id="navbarHeader">
-    <div class="container">
-    </div>
-  </div>
-  <div class="navbar shadow p3 bg-primary bg-gradient">
-    <div class="container">
-      <a href="/multiweb/index.html" class="navbar-brand d-flex align-items-center">
-        <img class="multiLogo" src="./assets2/img/multi sem bg.png" alt="multi logo" style="width: 42px;" height="34px">
-      </a> 
-
-      
-      <div class="btn-group">
-        <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          Linhas de Teste
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="zte.html">ZTE</a></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-  
-</header>
-
-<main>
-
-
-<!-- ========== Inicio cards de linhas ========== -->
-  <section> 
-    <div class="album py-5 bg-body-tertiary">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-          <div class="col">
-            <div class="card shadow-sm" id="LT01">
-              <svg id="card" class="card bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="green"/><text x="50%" y="50%" fill="black" dy=".3em">LT01</text></svg>
-              <small class="text-body-secondary" style="text-align: center;">Rodando</small>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm" id="LT02">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="green"/><text x="50%" y="50%" fill="black" dy=".3em">LT02</text></svg>
-              <small class="text-body-secondary" style="text-align: center;">Rodando</small>
-            </div>
-          </div>
-
-          <div class="col">
-              <div class="card shadow-sm" id="LT03">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="green"/><text x="50%" y="50%" fill="black" dy=".3em">LT03</text></svg>
-                    <small class="text-body-secondary" style="text-align: center;">Rodando</small>
+      {/* conteúdo principal */}
+      <div
+        className="container d-flex align-items-center justify-content-center"
+        style={{ minHeight: '90vh' }}
+      >
+        <div className="w-100" style={{ maxWidth: '500px' }}>
+          <div className="card p-4">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="linha" className="form-label">
+                  Linha
+                </label>
+                <input
+                  type="text"
+                  id="linha"
+                  name="linha"
+                  value={formData.linha}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Digite a linha"
+                  required
+                />
               </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm" id="LT04">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="green"/><text x="50%" y="50%" fill="black" dy=".3em">LT04</text></svg>
-              <small class="text-body-secondary" style="text-align: center;">Rodando</small>
-            </div>
+              <div className="mb-3">
+                <label htmlFor="posto" className="form-label">
+                  Posto
+                </label>
+                <input
+                  type="text"
+                  id="posto"
+                  name="posto"
+                  value={formData.posto}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Digite o posto"
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="departamento" className="form-label">
+                  Departamento
+                </label>
+                <select
+                  id="departamento"
+                  name="departamento"
+                  value={formData.departamento}
+                  onChange={handleChange}
+                  className="form-select"
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione o departamento
+                  </option>
+                  <option value="Engenharia de Processo">
+                    Engenharia de Processo
+                  </option>
+                  <option value="Engenharia de Teste">
+                    Engenharia de Teste
+                  </option>
+                  <option value="Qualidade">Qualidade</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="sintomas" className="form-label">
+                  Sintomas
+                </label>
+                <select
+                  id="sintomas"
+                  name="sintomas"
+                  value={formData.sintomas}
+                  onChange={handleChange}
+                  className="form-select"
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione o sintoma
+                  </option>
+                  {sintomasList.map((sintoma, index) => (
+                    <option key={index} value={sintoma}>
+                      {sintoma}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="observacao" className="form-label">
+                  Observação
+                </label>
+                <textarea
+                  id="observacao"
+                  name="observacao"
+                  value={formData.observacao}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Digite uma observação (máximo 250 caracteres)"
+                  rows="3"
+                  maxLength="250"
+                ></textarea>
+                <div className="text-end text-muted">
+                  {formData.observacao.length} / 250
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary w-100">
+                Abrir chamado
+              </button>
+            </form>
           </div>
         </div>
       </div>
+    </>
+  )
+}
 
-      <div class="album py-5 bg-body-tertiary">
-        <div class="container">      
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-            <div class="col">
-              <div class="card shadow-sm" id="LT05">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="orange"/><text x="50%" y="50%" fill="black" dy=".3em">LT05 - Posto []</text></svg>
-                <small class="text-body-secondary" style="text-align: center;">Em atendimento - 9 mins</small>
-              </div>
-            </div>
-
-            <div class="col">
-              <div class="card shadow-sm" id="LT06">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="orange"/><text x="50%" y="50%" fill="black" dy=".3em">LT06 - Posto []</text></svg>
-                <small class="text-body-secondary" style="text-align: center;">Em atendimento - 9 mins</small>
-              </div>
-            </div>
-
-            <div class="col">
-                <div class="card shadow-sm" id="LT07">
-                  <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="orange"/><text x="50%" y="50%" fill="black" dy=".3em">LT07 - Posto []</text></svg>
-                      <small class="text-body-secondary" style="text-align: center;">Em atendimento - 9 mins </small>
-                </div>                 
-            </div>
-
-            <div class="col">
-              <div class="card shadow-sm" id="LT08">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="orange"/><text x="50%" y="50%" fill="black" dy=".3em">LT08 - Posto []</text></svg>
-                <small class="text-body-secondary" style="text-align: center;">Em atendimento - 9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="album py-5 bg-body-tertiary">
-          <div class="container">
-      
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-              <div class="col">
-                <div class="card shadow-sm" id="LT09">
-                  <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="red"/><text x="50%" y="50%" fill="black" dy=".3em">LT09 - Posto []</text></svg>
-                  <small class="text-body-secondary" style="text-align: center;">Parado à 9 mins</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card shadow-sm" id="LT10">
-                  <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="red"/><text x="50%" y="50%" fill="black" dy=".3em">LT10 - Posto []</text></svg>
-                  <small class="text-body-secondary" style="text-align: center">Parado à 9 mins</small>
-                </div>
-              </div>
-              <div class="container mt-5">
-                <div class="col">
-                    <div class="card shadow-sm" id="meuCard">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="150" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <rect width="100%" height="100%"></rect>
-                            <text x="50%" y="50%" dy=".3em">LRD01 - Posto []</text>
-                        </svg>
-                        <button class="btn btn-primary m-3" onclick="mudarCor()">Mudar Cor</button>
-                        <small class="text-body-secondary text-center">Parado à 9 mins</small>
-                    </div>
-                </div>
-            </div>
-        
-              <div class="col">
-                <div class="card shadow-sm" id="LRD02">
-                  <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="red"/><text x="50%" y="50%" fill="black" dy=".3em">LRD02 - Posto []</text></svg>
-                  <small class="text-body-secondary" style="text-align: center;">Parado à 9 min</small>
-                </div>
-              </div>
-            </div>
-          </div>
-  </section>
-  <!-- ========== Fim cards de linhas ========== -->
-
-
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    </body>
-
-    doc
-</html>
+export default App
