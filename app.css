@@ -1,9 +1,63 @@
-body {
-    background-image: url('./assets/bg2.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 0;
+
+.logo {
+  transition: transform 0.3s ease;
+  margin-right: 20px;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+}
+
+/* container da imagem de fundo com gradiente ou imagem */
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2; /* abaixo das formas e do conteúdo */
+  background-size: cover;
+  background-position: center;
+}
+
+/* fundo com bolas */
+.background-shapes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* acima da imagem de fundo, mas abaixo do conteúdo */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  /* cores das Bolas esquerdas */
+  background-color: rgba(0, 123, 255, 0.2);
+  animation: float 6s ease-in-out infinite;
+}
+
+.shape.circle {
+  border-radius: 50%;
+}
+
+.shape.square {
+  border-radius: 0;
+}
+
+/* cores das Bolas direita */
+.right-shape {
+  background-color: rgba(61, 86, 224, 0.6) !important; /* Roxo translúcido */
+}
+
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
-  
+  50% {
+    transform: translateY(-20px);
+  }
+}
